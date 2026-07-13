@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Patrouille Strasbourg</title>
+<style>
+  :root {
+    --bg: #14181a;
+    --card: #1f2528;
+    --card-border: #2c3438;
+    --ink: #eef1f2;
+    --sub: #9aa5aa;
+    --accent: #d97b3e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, "SF Pro Text", Helvetica, Arial, sans-serif;
+    padding-bottom: 60px;
+  }
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: linear-gradient(180deg, #14181a 85%, rgba(20,24,26,0));
+    padding: 18px 16px 10px;
+  }
+  h1 {
+    font-size: 1.3rem;
+    margin: 0 0 2px;
+    letter-spacing: 0.02em;
+    font-weight: 700;
+  }
+  .subtitle {
+    color: var(--sub);
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+  }
+  .progress-wrap {
+    background: #262d30;
+    border-radius: 999px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.2s ease;
+  }
+  .progress-label {
+    font-size: 0.75rem;
+    color: var(--sub);
+    margin-top: 6px;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 6px 12px 20px;
+  }
+  .stop {
+    display: flex;
+    gap: 10px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-left: 4px solid var(--zone-color);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+  .stop.special {
+    border-left-color: var(--accent);
+    background: #241f1a;
+  }
+  .stop.marked {
+    opacity: 0.4;
+  }
+  .stop-num {
+    flex: 0 0 28px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--sub);
+    padding-top: 2px;
+  }
+  .stop-body { flex: 1; min-width: 0; }
+  .stop-top {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    background: #2c3438;
+    color: var(--sub);
+    padding: 2px 7px;
+    border-radius: 999px;
+  }
+  .tag.special {
+    background: var(--accent);
+    color: #1a1a1a;
+  }
+  .statut {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 999px;
+    margin-left: auto;
+  }
+  .stop-name {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .stop-addr {
+    font-size: 0.85rem;
+    color: var(--sub);
+    margin-top: 2px;
+  }
+  .note {
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-top: 4px;
+    font-style: italic;
+  }
+  .actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .btn {
+    flex: 1;
+    text-align: center;
+    padding: 9px 4px;
+    border-radius: 9px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+  }
+  .btn.waze { background: #33ccff; color: #05283a; }
+  .btn.maps { background: #3d7d5c; color: #eafff2; }
+  .btn.done { background: #2c3438; color: var(--sub); }
+  .stop.marked .btn.done { background: var(--accent); color: #1a1a1a; }
+  footer {
+    text-align: center;
+    color: var(--sub);
+    font-size: 0.75rem;
+    padding: 10px 20px 30px;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Pat patrouille de Grotto le J</h1>
+  <div class="subtitle">73 points · ZP21 → ZP12 (déjeuner Stirn) → ZP22 → retour Turenne</div>
+  <div class="progress-wrap"><div class="progress-bar" id="bar"></div></div>
+  <div class="progress-label" id="progress-label">0 / 73 faits</div>
+</header>
+<ul>
+
+    <li class="stop special" style="--zone-color:#C9A24B">
+      <div class="stop-num">1</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span><span class="tag special">DÉPART</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Caserne Turenne</div>
+        <div class="stop-addr">42, rue Lauth, Strasbourg</div>
+        <div class="note">Point de départ</div>
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=42%2C%20rue%20Lauth%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Caserne%20Turenne%2C%2042%2C%20rue%20Lauth%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">2</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">École primaire Tachbar</div>
+        <div class="stop-addr">3, rue de Goethe, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=3%2C%20rue%20de%20Goethe%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89cole%20primaire%20Tachbar%2C%203%2C%20rue%20de%20Goethe%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">3</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Jardin d'enfants Rechit Hochma</div>
+        <div class="stop-addr">42, avenue de la Forêt Noire, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=42%2C%20avenue%20de%20la%20For%C3%AAt%20Noire%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Jardin%20d%27enfants%20Rechit%20Hochma%2C%2042%2C%20avenue%20de%20la%20For%C3%AAt%20Noire%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">4</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Église Saint Maurice</div>
+        <div class="stop-addr">41, avenue de la Forêt Noire, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=41%2C%20avenue%20de%20la%20For%C3%AAt%20Noire%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20Saint%20Maurice%2C%2041%2C%20avenue%20de%20la%20For%C3%AAt%20Noire%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">5</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">École Torat Emet - Association les Eaux Vives</div>
+        <div class="stop-addr">14, avenue des Vosges, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=14%2C%20avenue%20des%20Vosges%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89cole%20Torat%20Emet%20-%20Association%20les%20Eaux%20Vives%2C%2014%2C%20avenue%20des%20Vosges%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">6</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2b5f8a;background:#e6eff6">Attribué Police</span>
+        </div>
+        <div class="stop-name">Synagogue Ets'Haïm</div>
+        <div class="stop-addr">7, rue de Turenne, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=7%2C%20rue%20de%20Turenne%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Synagogue%20Ets%27Ha%C3%AFm%2C%207%2C%20rue%20de%20Turenne%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">7</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Oratoire Hafetz Haim / Synagogue Yechiva Eshel</div>
+        <div class="stop-addr">19, rue Schweighaeuser, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=19%2C%20rue%20Schweighaeuser%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Oratoire%20Hafetz%20Haim%20/%20Synagogue%20Yechiva%20Eshel%2C%2019%2C%20rue%20Schweighaeuser%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">8</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Synagogue Chearim</div>
+        <div class="stop-addr">10, rue de Verdun, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=10%2C%20rue%20de%20Verdun%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Synagogue%20Chearim%2C%2010%2C%20rue%20de%20Verdun%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">9</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Consulat d'Israël</div>
+        <div class="stop-addr">20, rue Gottfried, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=20%2C%20rue%20Gottfried%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Consulat%20d%27Isra%C3%ABl%2C%2020%2C%20rue%20Gottfried%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">10</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Synagogue oratoire Ami</div>
+        <div class="stop-addr">1, rue de Silbermann, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=1%2C%20rue%20de%20Silbermann%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Synagogue%20oratoire%20Ami%2C%201%2C%20rue%20de%20Silbermann%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">11</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Centre d'étude International Yechiva</div>
+        <div class="stop-addr">2, allée Spach, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=2%2C%20all%C3%A9e%20Spach%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20d%27%C3%A9tude%20International%20Yechiva%2C%202%2C%20all%C3%A9e%20Spach%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">12</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Église catholique Saint Bernard</div>
+        <div class="stop-addr">4, boulevard Jean-Sébastien Bach, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=4%2C%20boulevard%20Jean-S%C3%A9bastien%20Bach%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20catholique%20Saint%20Bernard%2C%204%2C%20boulevard%20Jean-S%C3%A9bastien%20Bach%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">13</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Église réformée Saint Paul</div>
+        <div class="stop-addr">1, place du Général Eisenhower, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=1%2C%20place%20du%20G%C3%A9n%C3%A9ral%20Eisenhower%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20r%C3%A9form%C3%A9e%20Saint%20Paul%2C%201%2C%20place%20du%20G%C3%A9n%C3%A9ral%20Eisenhower%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">14</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Église protestante Saint Matthieu</div>
+        <div class="stop-addr">97, boulevard d'Anvers, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=97%2C%20boulevard%20d%27Anvers%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20protestante%20Saint%20Matthieu%2C%2097%2C%20boulevard%20d%27Anvers%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">15</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Recrutement de la légion étrangère</div>
+        <div class="stop-addr">1, rue d'Ostende, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=1%2C%20rue%20d%27Ostende%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Recrutement%20de%20la%20l%C3%A9gion%20%C3%A9trang%C3%A8re%2C%201%2C%20rue%20d%27Ostende%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">16</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Centre médico-social Orangerie</div>
+        <div class="stop-addr">20, rue de Rotterdam, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=20%2C%20rue%20de%20Rotterdam%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20m%C3%A9dico-social%20Orangerie%2C%2020%2C%20rue%20de%20Rotterdam%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">17</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Parlement Européen</div>
+        <div class="stop-addr">Allée du Printemps, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=All%C3%A9e%20du%20Printemps%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Parlement%20Europ%C3%A9en%2C%20All%C3%A9e%20du%20Printemps%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">18</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Conseil de l'Europe</div>
+        <div class="stop-addr">Avenue de l'Europe, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=Avenue%20de%20l%27Europe%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Conseil%20de%20l%27Europe%2C%20Avenue%20de%20l%27Europe%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">19</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Cour européenne des Droits de l'Homme</div>
+        <div class="stop-addr">Allée des droits de l'Homme, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=All%C3%A9e%20des%20droits%20de%20l%27Homme%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Cour%20europ%C3%A9enne%20des%20Droits%20de%20l%27Homme%2C%20All%C3%A9e%20des%20droits%20de%20l%27Homme%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">20</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Couvent des Dominicains</div>
+        <div class="stop-addr">41, boulevard de la Victoire, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=41%2C%20boulevard%20de%20la%20Victoire%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Couvent%20des%20Dominicains%2C%2041%2C%20boulevard%20de%20la%20Victoire%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B">
+      <div class="stop-num">21</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span>
+          <span class="statut" style="color:#2b5f8a;background:#e6eff6">Attribué Police</span>
+        </div>
+        <div class="stop-name">Synagogue de la paix</div>
+        <div class="stop-addr">Rue René Hirschler / Avenue de la Paix, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=Rue%20Ren%C3%A9%20Hirschler%20/%20Avenue%20de%20la%20Paix%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Synagogue%20de%20la%20paix%2C%20Rue%20Ren%C3%A9%20Hirschler%20/%20Avenue%20de%20la%20Paix%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">22</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">École Beth Hanna (1ère emprise)</div>
+        <div class="stop-addr">59, rue du Faubourg de Pierre, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=59%2C%20rue%20du%20Faubourg%20de%20Pierre%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89cole%20Beth%20Hanna%20%281%C3%A8re%20emprise%29%2C%2059%2C%20rue%20du%20Faubourg%20de%20Pierre%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">23</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Chapelle Notre Dame du Très Saint Rosaire</div>
+        <div class="stop-addr">28, rue du Faubourg de Pierre, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=28%2C%20rue%20du%20Faubourg%20de%20Pierre%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Chapelle%20Notre%20Dame%20du%20Tr%C3%A8s%20Saint%20Rosaire%2C%2028%2C%20rue%20du%20Faubourg%20de%20Pierre%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">24</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2b5f8a;background:#e6eff6">Attribué Police</span>
+        </div>
+        <div class="stop-name">École AQUIBA</div>
+        <div class="stop-addr">4, rue Baldung-Grien, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=4%2C%20rue%20Baldung-Grien%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89cole%20AQUIBA%2C%204%2C%20rue%20Baldung-Grien%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">25</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Garderie Baby Cherry Tree</div>
+        <div class="stop-addr">17B, rue de la Toussaint, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=17B%2C%20rue%20de%20la%20Toussaint%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Garderie%20Baby%20Cherry%20Tree%2C%2017B%2C%20rue%20de%20la%20Toussaint%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">26</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#8a8f98;background:#eef0f2">Non actif</span>
+        </div>
+        <div class="stop-name">Association relais jeune</div>
+        <div class="stop-addr">13, rue du Général Rapp, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=13%2C%20rue%20du%20G%C3%A9n%C3%A9ral%20Rapp%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Association%20relais%20jeune%2C%2013%2C%20rue%20du%20G%C3%A9n%C3%A9ral%20Rapp%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">27</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">École ORT et Internat ORT</div>
+        <div class="stop-addr">11 & 14, rue Sellenick, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=11%20%26%2014%2C%20rue%20Sellenick%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89cole%20ORT%20et%20Internat%20ORT%2C%2011%20%26%2014%2C%20rue%20Sellenick%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">28</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Centre Eshel</div>
+        <div class="stop-addr">23, rue Sellenick, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=23%2C%20rue%20Sellenick%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20Eshel%2C%2023%2C%20rue%20Sellenick%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">29</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Synagogue Adath Israël</div>
+        <div class="stop-addr">9, rue Sellenick, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=9%2C%20rue%20Sellenick%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Synagogue%20Adath%20Isra%C3%ABl%2C%209%2C%20rue%20Sellenick%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">30</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Oratoir Esh Dat</div>
+        <div class="stop-addr">11, rue Finkmatt, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=11%2C%20rue%20Finkmatt%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Oratoir%20Esh%20Dat%2C%2011%2C%20rue%20Finkmatt%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">31</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Association Habourah</div>
+        <div class="stop-addr">12, rue Finkmatt, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=12%2C%20rue%20Finkmatt%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Association%20Habourah%2C%2012%2C%20rue%20Finkmatt%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">32</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Tribunal judiciaire</div>
+        <div class="stop-addr">7, quai Finkmatt, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=7%2C%20quai%20Finkmatt%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Tribunal%20judiciaire%2C%207%2C%20quai%20Finkmatt%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">33</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Crèche les Chérubins Haya Mouchka</div>
+        <div class="stop-addr">31, rue du Fossé des Treize, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=31%2C%20rue%20du%20Foss%C3%A9%20des%20Treize%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Cr%C3%A8che%20les%20Ch%C3%A9rubins%20Haya%20Mouchka%2C%2031%2C%20rue%20du%20Foss%C3%A9%20des%20Treize%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">34</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Tribunal d'instance</div>
+        <div class="stop-addr">43-45, rue du Fossé des Treize, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=43-45%2C%20rue%20du%20Foss%C3%A9%20des%20Treize%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Tribunal%20d%27instance%2C%2043-45%2C%20rue%20du%20Foss%C3%A9%20des%20Treize%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">35</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Salle de concert Molodoï</div>
+        <div class="stop-addr">19, rue du Ban-de-la-Roche, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=19%2C%20rue%20du%20Ban-de-la-Roche%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Salle%20de%20concert%20Molodo%C3%AF%2C%2019%2C%20rue%20du%20Ban-de-la-Roche%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">36</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Site n°12</div>
+        <div class="stop-addr">7, rue Saint-Léon, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=7%2C%20rue%20Saint-L%C3%A9on%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Site%20n%C2%B012%2C%207%2C%20rue%20Saint-L%C3%A9on%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">37</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Communauté du puits de Jacob</div>
+        <div class="stop-addr">5, rue Saint-Léon, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=5%2C%20rue%20Saint-L%C3%A9on%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Communaut%C3%A9%20du%20puits%20de%20Jacob%2C%205%2C%20rue%20Saint-L%C3%A9on%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">38</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Chapelle de l'Hôpital civil</div>
+        <div class="stop-addr">1, place de l'Hôpital, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=1%2C%20place%20de%20l%27H%C3%B4pital%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Chapelle%20de%20l%27H%C3%B4pital%20civil%2C%201%2C%20place%20de%20l%27H%C3%B4pital%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">39</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#a67c1e;background:#fbf1dc">PI en sommeil</span>
+        </div>
+        <div class="stop-name">Centres de vaccination hôpitaux de Strasbourg</div>
+        <div class="stop-addr">1, place de l'Hôpital, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=1%2C%20place%20de%20l%27H%C3%B4pital%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centres%20de%20vaccination%20h%C3%B4pitaux%20de%20Strasbourg%2C%201%2C%20place%20de%20l%27H%C3%B4pital%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">40</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Hôpital Civil (CHU, centre de vaccination)</div>
+        <div class="stop-addr">Quai Louis Pasteur, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=Quai%20Louis%20Pasteur%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=H%C3%B4pital%20Civil%20%28CHU%2C%20centre%20de%20vaccination%29%2C%20Quai%20Louis%20Pasteur%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">41</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Centre de secours Pompier</div>
+        <div class="stop-addr">3, quai Finkwiller, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=3%2C%20quai%20Finkwiller%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20de%20secours%20Pompier%2C%203%2C%20quai%20Finkwiller%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">42</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Église Saint Jean</div>
+        <div class="stop-addr">13, quai Saint Jean, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=13%2C%20quai%20Saint%20Jean%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20Saint%20Jean%2C%2013%2C%20quai%20Saint%20Jean%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">43</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Fraternité monastique de Jérusalem</div>
+        <div class="stop-addr">13, quai Saint Jean, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=13%2C%20quai%20Saint%20Jean%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Fraternit%C3%A9%20monastique%20de%20J%C3%A9rusalem%2C%2013%2C%20quai%20Saint%20Jean%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">44</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Paroisse Saint Nicolas</div>
+        <div class="stop-addr">9, quai Saint Nicolas, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=9%2C%20quai%20Saint%20Nicolas%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Paroisse%20Saint%20Nicolas%2C%209%2C%20quai%20Saint%20Nicolas%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">45</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Chapelle des Diaconesses</div>
+        <div class="stop-addr">6, rue de Sainte Élisabeth, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=6%2C%20rue%20de%20Sainte%20%C3%89lisabeth%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Chapelle%20des%20Diaconesses%2C%206%2C%20rue%20de%20Sainte%20%C3%89lisabeth%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">46</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Église Sainte Aurélie</div>
+        <div class="stop-addr">16, rue Martin Bucer, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=16%2C%20rue%20Martin%20Bucer%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20Sainte%20Aur%C3%A9lie%2C%2016%2C%20rue%20Martin%20Bucer%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">47</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Église Saint Louis</div>
+        <div class="stop-addr">11, rue Saint Louis, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=11%2C%20rue%20Saint%20Louis%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20Saint%20Louis%2C%2011%2C%20rue%20Saint%20Louis%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">48</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Tribunal administratif</div>
+        <div class="stop-addr">31, avenue de la Paix, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=31%2C%20avenue%20de%20la%20Paix%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Tribunal%20administratif%2C%2031%2C%20avenue%20de%20la%20Paix%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">49</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Conseil de Prud'hommes</div>
+        <div class="stop-addr">19, avenue de la Paix, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=19%2C%20avenue%20de%20la%20Paix%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Conseil%20de%20Prud%27hommes%2C%2019%2C%20avenue%20de%20la%20Paix%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">50</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">CIRFA Bas-Rhin</div>
+        <div class="stop-addr">1, rue de Saales, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=1%2C%20rue%20de%20Saales%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=CIRFA%20Bas-Rhin%2C%201%2C%20rue%20de%20Saales%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">51</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Gare de Strasbourg</div>
+        <div class="stop-addr">Place de la Gare, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=Place%20de%20la%20Gare%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Gare%20de%20Strasbourg%2C%20Place%20de%20la%20Gare%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">52</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Place de la gare</div>
+        <div class="stop-addr">Place de la Gare, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=Place%20de%20la%20Gare%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Place%20de%20la%20gare%2C%20Place%20de%20la%20Gare%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">53</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#8a8f98;background:#eef0f2">Non actif</span>
+        </div>
+        <div class="stop-name">Centre médico-social Gare</div>
+        <div class="stop-addr">31, rue Kageneck, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=31%2C%20rue%20Kageneck%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20m%C3%A9dico-social%20Gare%2C%2031%2C%20rue%20Kageneck%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">54</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#8a8f98;background:#eef0f2">Non actif</span>
+        </div>
+        <div class="stop-name">Centre de vaccination Clinique Sainte-Barbe</div>
+        <div class="stop-addr">29, rue du Faubourg National, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=29%2C%20rue%20du%20Faubourg%20National%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20de%20vaccination%20Clinique%20Sainte-Barbe%2C%2029%2C%20rue%20du%20Faubourg%20National%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">55</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#a67c1e;background:#fbf1dc">PI en sommeil</span>
+        </div>
+        <div class="stop-name">Vaccinodrome</div>
+        <div class="stop-addr">Place du Quartier Blanc, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=Place%20du%20Quartier%20Blanc%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Vaccinodrome%2C%20Place%20du%20Quartier%20Blanc%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">56</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#a67c1e;background:#fbf1dc">PI en sommeil</span>
+        </div>
+        <div class="stop-name">Centre de vaccination La Bourse</div>
+        <div class="stop-addr">1, place du Maréchal de Lattre de Tassigny, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=1%2C%20place%20du%20Mar%C3%A9chal%20de%20Lattre%20de%20Tassigny%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20de%20vaccination%20La%20Bourse%2C%201%2C%20place%20du%20Mar%C3%A9chal%20de%20Lattre%20de%20Tassigny%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">57</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Internat ORT (2e site)</div>
+        <div class="stop-addr">46, boulevard Clemenceau, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=46%2C%20boulevard%20Clemenceau%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Internat%20ORT%20%282e%20site%29%2C%2046%2C%20boulevard%20Clemenceau%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38">
+      <div class="stop-num">58</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Groupement de gendarmerie du Bas-Rhin</div>
+        <div class="stop-addr">2, rue de Molsheim, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=2%2C%20rue%20de%20Molsheim%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Groupement%20de%20gendarmerie%20du%20Bas-Rhin%2C%202%2C%20rue%20de%20Molsheim%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop special" style="--zone-color:#B85C38">
+      <div class="stop-num">59</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span><span class="tag special">DÉJEUNER</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">CFIAR et GSBdD SHC - Caserne Stirn</div>
+        <div class="stop-addr">37, boulevard Clemenceau, Strasbourg</div>
+        <div class="note">Pause déjeuner ~12h</div>
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=37%2C%20boulevard%20Clemenceau%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=CFIAR%20et%20GSBdD%20SHC%20-%20Caserne%20Stirn%2C%2037%2C%20boulevard%20Clemenceau%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#4C7A5E">
+      <div class="stop-num">60</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP22</span>
+          <span class="statut" style="color:#a4322c;background:#fbe9e7">Fermé</span>
+        </div>
+        <div class="stop-name">Synagogue de l'Esplanade</div>
+        <div class="stop-addr">17, rue de Nicosie, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=17%2C%20rue%20de%20Nicosie%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Synagogue%20de%20l%27Esplanade%2C%2017%2C%20rue%20de%20Nicosie%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#4C7A5E">
+      <div class="stop-num">61</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP22</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Grande Mosquée</div>
+        <div class="stop-addr">6, rue Averroès, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=6%2C%20rue%20Averro%C3%A8s%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Grande%20Mosqu%C3%A9e%2C%206%2C%20rue%20Averro%C3%A8s%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#4C7A5E">
+      <div class="stop-num">62</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP22</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Mosquée Eyyub Sultan</div>
+        <div class="stop-addr">6, rue de la Fayette, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=6%2C%20rue%20de%20la%20Fayette%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Mosqu%C3%A9e%20Eyyub%20Sultan%2C%206%2C%20rue%20de%20la%20Fayette%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#4C7A5E">
+      <div class="stop-num">63</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP22</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Église Saint Guillaume</div>
+        <div class="stop-addr">1, rue Munch, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=1%2C%20rue%20Munch%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20Saint%20Guillaume%2C%201%2C%20rue%20Munch%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#4C7A5E">
+      <div class="stop-num">64</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP22</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Église Sainte Madeleine</div>
+        <div class="stop-addr">4, place Sainte Madeleine, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=4%2C%20place%20Sainte%20Madeleine%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20Sainte%20Madeleine%2C%204%2C%20place%20Sainte%20Madeleine%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#4C7A5E">
+      <div class="stop-num">65</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP22</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Centre commercial Rive Étoile</div>
+        <div class="stop-addr">3, place Dauphine, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=3%2C%20place%20Dauphine%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20commercial%20Rive%20%C3%89toile%2C%203%2C%20place%20Dauphine%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#4C7A5E">
+      <div class="stop-num">66</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP22</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Commissariat de Police de Neudorf</div>
+        <div class="stop-addr">33, rue de Sélestat, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=33%2C%20rue%20de%20S%C3%A9lestat%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Commissariat%20de%20Police%20de%20Neudorf%2C%2033%2C%20rue%20de%20S%C3%A9lestat%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#4C7A5E">
+      <div class="stop-num">67</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP22</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Hôtel de police</div>
+        <div class="stop-addr">34, route de l'Hôpital, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=34%2C%20route%20de%20l%27H%C3%B4pital%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=H%C3%B4tel%20de%20police%2C%2034%2C%20route%20de%20l%27H%C3%B4pital%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#4C7A5E">
+      <div class="stop-num">68</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP22</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Police municipale</div>
+        <div class="stop-addr">1, parc de l'Étoile, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=1%2C%20parc%20de%20l%27%C3%89toile%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Police%20municipale%2C%201%2C%20parc%20de%20l%27%C3%89toile%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#4C7A5E">
+      <div class="stop-num">69</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP22</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Centre médico-social Bourse-Esplanade-Krutenau</div>
+        <div class="stop-addr">15, rue de Genève, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=15%2C%20rue%20de%20Gen%C3%A8ve%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20m%C3%A9dico-social%20Bourse-Esplanade-Krutenau%2C%2015%2C%20rue%20de%20Gen%C3%A8ve%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#4C7A5E">
+      <div class="stop-num">70</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP22</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Centre médico-social Neudorf</div>
+        <div class="stop-addr">32, rue de Rathsamhausen, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=32%2C%20rue%20de%20Rathsamhausen%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20m%C3%A9dico-social%20Neudorf%2C%2032%2C%20rue%20de%20Rathsamhausen%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#4C7A5E">
+      <div class="stop-num">71</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP22</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Lycée Couffignal</div>
+        <div class="stop-addr">190, avenue de Colmar, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=190%2C%20avenue%20de%20Colmar%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Lyc%C3%A9e%20Couffignal%2C%20190%2C%20avenue%20de%20Colmar%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#4C7A5E">
+      <div class="stop-num">72</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP22</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Lycée Jean Rostand</div>
+        <div class="stop-addr">5, rue Edmond Labbe, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=5%2C%20rue%20Edmond%20Labbe%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Lyc%C3%A9e%20Jean%20Rostand%2C%205%2C%20rue%20Edmond%20Labbe%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+    <li class="stop special" style="--zone-color:#C9A24B">
+      <div class="stop-num">73</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span><span class="tag special">RETOUR</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Caserne Turenne</div>
+        <div class="stop-addr">42, rue Lauth, Strasbourg</div>
+        <div class="note">Fin de boucle</div>
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=42%2C%20rue%20Lauth%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Caserne%20Turenne%2C%2042%2C%20rue%20Lauth%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+        </div>
+      </div>
+    </li>
+    
+</ul>
+<footer>Tape "Fait" pour cocher un point (reste seulement pendant que la page est ouverte, sans sauvegarde).</footer>
+<script>
+  const total = 73;
+  function updateProgress() {
+    const done = document.querySelectorAll('.stop.marked').length;
+    document.getElementById('bar').style.width = (done/total*100) + '%';
+    document.getElementById('progress-label').textContent = done + ' / ' + total + ' faits';
+  }
+  function toggleDone(btn) {
+    const li = btn.closest('.stop');
+    li.classList.toggle('marked');
+    btn.textContent = li.classList.contains('marked') ? 'Annuler' : 'Fait';
+    updateProgress();
+  }
+</script>
+</body>
+</html>
