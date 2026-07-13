@@ -170,7 +170,35 @@
   .btn.waze { background: #33ccff; color: #05283a; }
   .btn.maps { background: #3d7d5c; color: #eafff2; }
   .btn.done { background: #2c3438; color: var(--sub); }
+  .btn.report { background: #4a3030; color: #f0b8ac; }
   .stop.marked .btn.done { background: var(--accent); color: #1a1a1a; }
+  .stop.reported { border-left-color: #c9483c; }
+  .btn.report.active { background: #c9483c; color: #fff; }
+  .report-box {
+    margin-top: 10px;
+  }
+  .report-text {
+    width: 100%;
+    min-height: 60px;
+    background: #14181a;
+    border: 1px solid #3a4448;
+    border-radius: 8px;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 8px 10px;
+    resize: vertical;
+  }
+  .report-text:focus {
+    outline: none;
+    border-color: #c9483c;
+  }
+  .report-flag {
+    margin-top: 8px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #ff9c8c;
+  }
   footer {
     text-align: center;
     color: var(--sub);
@@ -205,7 +233,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=42%2C%20rue%20Lauth%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Caserne%20Turenne%2C%2042%2C%20rue%20Lauth%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -223,7 +256,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=3%2C%20rue%20de%20Goethe%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89cole%20primaire%20Tachbar%2C%203%2C%20rue%20de%20Goethe%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -241,7 +279,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=42%2C%20avenue%20de%20la%20For%C3%AAt%20Noire%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Jardin%20d%27enfants%20Rechit%20Hochma%2C%2042%2C%20avenue%20de%20la%20For%C3%AAt%20Noire%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -259,7 +302,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=41%2C%20avenue%20de%20la%20For%C3%AAt%20Noire%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20Saint%20Maurice%2C%2041%2C%20avenue%20de%20la%20For%C3%AAt%20Noire%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -277,7 +325,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=14%2C%20avenue%20des%20Vosges%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89cole%20Torat%20Emet%20-%20Association%20les%20Eaux%20Vives%2C%2014%2C%20avenue%20des%20Vosges%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -295,7 +348,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=7%2C%20rue%20de%20Turenne%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Synagogue%20Ets%27Ha%C3%AFm%2C%207%2C%20rue%20de%20Turenne%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -313,7 +371,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=19%2C%20rue%20Schweighaeuser%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Oratoire%20Hafetz%20Haim%20/%20Synagogue%20Yechiva%20Eshel%2C%2019%2C%20rue%20Schweighaeuser%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -331,7 +394,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=10%2C%20rue%20de%20Verdun%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Synagogue%20Chearim%2C%2010%2C%20rue%20de%20Verdun%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -349,7 +417,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=20%2C%20rue%20Gottfried%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Consulat%20d%27Isra%C3%ABl%2C%2020%2C%20rue%20Gottfried%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -367,7 +440,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=1%2C%20rue%20de%20Silbermann%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Synagogue%20oratoire%20Ami%2C%201%2C%20rue%20de%20Silbermann%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -385,7 +463,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=2%2C%20all%C3%A9e%20Spach%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20d%27%C3%A9tude%20International%20Yechiva%2C%202%2C%20all%C3%A9e%20Spach%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -403,7 +486,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=4%2C%20boulevard%20Jean-S%C3%A9bastien%20Bach%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20catholique%20Saint%20Bernard%2C%204%2C%20boulevard%20Jean-S%C3%A9bastien%20Bach%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -421,7 +509,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=1%2C%20place%20du%20G%C3%A9n%C3%A9ral%20Eisenhower%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20r%C3%A9form%C3%A9e%20Saint%20Paul%2C%201%2C%20place%20du%20G%C3%A9n%C3%A9ral%20Eisenhower%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -439,7 +532,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=97%2C%20boulevard%20d%27Anvers%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20protestante%20Saint%20Matthieu%2C%2097%2C%20boulevard%20d%27Anvers%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -457,7 +555,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=1%2C%20rue%20d%27Ostende%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Recrutement%20de%20la%20l%C3%A9gion%20%C3%A9trang%C3%A8re%2C%201%2C%20rue%20d%27Ostende%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -475,7 +578,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=20%2C%20rue%20de%20Rotterdam%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20m%C3%A9dico-social%20Orangerie%2C%2020%2C%20rue%20de%20Rotterdam%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -493,7 +601,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=All%C3%A9e%20du%20Printemps%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Parlement%20Europ%C3%A9en%2C%20All%C3%A9e%20du%20Printemps%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -511,7 +624,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=Avenue%20de%20l%27Europe%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Conseil%20de%20l%27Europe%2C%20Avenue%20de%20l%27Europe%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -529,7 +647,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=All%C3%A9e%20des%20droits%20de%20l%27Homme%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Cour%20europ%C3%A9enne%20des%20Droits%20de%20l%27Homme%2C%20All%C3%A9e%20des%20droits%20de%20l%27Homme%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -547,7 +670,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=41%2C%20boulevard%20de%20la%20Victoire%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Couvent%20des%20Dominicains%2C%2041%2C%20boulevard%20de%20la%20Victoire%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -565,7 +693,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=Rue%20Ren%C3%A9%20Hirschler%20/%20Avenue%20de%20la%20Paix%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Synagogue%20de%20la%20paix%2C%20Rue%20Ren%C3%A9%20Hirschler%20/%20Avenue%20de%20la%20Paix%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -583,7 +716,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=59%2C%20rue%20du%20Faubourg%20de%20Pierre%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89cole%20Beth%20Hanna%20%281%C3%A8re%20emprise%29%2C%2059%2C%20rue%20du%20Faubourg%20de%20Pierre%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -601,7 +739,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=28%2C%20rue%20du%20Faubourg%20de%20Pierre%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Chapelle%20Notre%20Dame%20du%20Tr%C3%A8s%20Saint%20Rosaire%2C%2028%2C%20rue%20du%20Faubourg%20de%20Pierre%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -619,7 +762,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=4%2C%20rue%20Baldung-Grien%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89cole%20AQUIBA%2C%204%2C%20rue%20Baldung-Grien%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -637,7 +785,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=17B%2C%20rue%20de%20la%20Toussaint%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Garderie%20Baby%20Cherry%20Tree%2C%2017B%2C%20rue%20de%20la%20Toussaint%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -655,7 +808,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=13%2C%20rue%20du%20G%C3%A9n%C3%A9ral%20Rapp%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Association%20relais%20jeune%2C%2013%2C%20rue%20du%20G%C3%A9n%C3%A9ral%20Rapp%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -673,7 +831,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=11%20%26%2014%2C%20rue%20Sellenick%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89cole%20ORT%20et%20Internat%20ORT%2C%2011%20%26%2014%2C%20rue%20Sellenick%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -691,7 +854,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=23%2C%20rue%20Sellenick%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20Eshel%2C%2023%2C%20rue%20Sellenick%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -709,7 +877,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=9%2C%20rue%20Sellenick%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Synagogue%20Adath%20Isra%C3%ABl%2C%209%2C%20rue%20Sellenick%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -727,7 +900,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=11%2C%20rue%20Finkmatt%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Oratoir%20Esh%20Dat%2C%2011%2C%20rue%20Finkmatt%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -745,7 +923,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=12%2C%20rue%20Finkmatt%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Association%20Habourah%2C%2012%2C%20rue%20Finkmatt%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -763,7 +946,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=7%2C%20quai%20Finkmatt%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Tribunal%20judiciaire%2C%207%2C%20quai%20Finkmatt%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -781,7 +969,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=31%2C%20rue%20du%20Foss%C3%A9%20des%20Treize%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Cr%C3%A8che%20les%20Ch%C3%A9rubins%20Haya%20Mouchka%2C%2031%2C%20rue%20du%20Foss%C3%A9%20des%20Treize%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -799,7 +992,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=43-45%2C%20rue%20du%20Foss%C3%A9%20des%20Treize%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Tribunal%20d%27instance%2C%2043-45%2C%20rue%20du%20Foss%C3%A9%20des%20Treize%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -817,7 +1015,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=19%2C%20rue%20du%20Ban-de-la-Roche%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Salle%20de%20concert%20Molodo%C3%AF%2C%2019%2C%20rue%20du%20Ban-de-la-Roche%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -835,7 +1038,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=7%2C%20rue%20Saint-L%C3%A9on%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Site%20n%C2%B012%2C%207%2C%20rue%20Saint-L%C3%A9on%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -853,7 +1061,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=5%2C%20rue%20Saint-L%C3%A9on%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Communaut%C3%A9%20du%20puits%20de%20Jacob%2C%205%2C%20rue%20Saint-L%C3%A9on%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -871,7 +1084,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=1%2C%20place%20de%20l%27H%C3%B4pital%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Chapelle%20de%20l%27H%C3%B4pital%20civil%2C%201%2C%20place%20de%20l%27H%C3%B4pital%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -889,7 +1107,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=1%2C%20place%20de%20l%27H%C3%B4pital%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centres%20de%20vaccination%20h%C3%B4pitaux%20de%20Strasbourg%2C%201%2C%20place%20de%20l%27H%C3%B4pital%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -907,7 +1130,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=Quai%20Louis%20Pasteur%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=H%C3%B4pital%20Civil%20%28CHU%2C%20centre%20de%20vaccination%29%2C%20Quai%20Louis%20Pasteur%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -925,7 +1153,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=3%2C%20quai%20Finkwiller%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20de%20secours%20Pompier%2C%203%2C%20quai%20Finkwiller%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -943,7 +1176,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=13%2C%20quai%20Saint%20Jean%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20Saint%20Jean%2C%2013%2C%20quai%20Saint%20Jean%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -961,7 +1199,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=13%2C%20quai%20Saint%20Jean%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Fraternit%C3%A9%20monastique%20de%20J%C3%A9rusalem%2C%2013%2C%20quai%20Saint%20Jean%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -979,7 +1222,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=9%2C%20quai%20Saint%20Nicolas%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Paroisse%20Saint%20Nicolas%2C%209%2C%20quai%20Saint%20Nicolas%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -997,7 +1245,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=6%2C%20rue%20de%20Sainte%20%C3%89lisabeth%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Chapelle%20des%20Diaconesses%2C%206%2C%20rue%20de%20Sainte%20%C3%89lisabeth%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1015,7 +1268,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=16%2C%20rue%20Martin%20Bucer%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20Sainte%20Aur%C3%A9lie%2C%2016%2C%20rue%20Martin%20Bucer%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1033,7 +1291,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=11%2C%20rue%20Saint%20Louis%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20Saint%20Louis%2C%2011%2C%20rue%20Saint%20Louis%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1051,7 +1314,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=31%2C%20avenue%20de%20la%20Paix%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Tribunal%20administratif%2C%2031%2C%20avenue%20de%20la%20Paix%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1069,7 +1337,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=19%2C%20avenue%20de%20la%20Paix%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Conseil%20de%20Prud%27hommes%2C%2019%2C%20avenue%20de%20la%20Paix%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1087,7 +1360,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=1%2C%20rue%20de%20Saales%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=CIRFA%20Bas-Rhin%2C%201%2C%20rue%20de%20Saales%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1105,7 +1383,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=Place%20de%20la%20Gare%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Gare%20de%20Strasbourg%2C%20Place%20de%20la%20Gare%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1123,7 +1406,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=Place%20de%20la%20Gare%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Place%20de%20la%20gare%2C%20Place%20de%20la%20Gare%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1141,7 +1429,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=31%2C%20rue%20Kageneck%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20m%C3%A9dico-social%20Gare%2C%2031%2C%20rue%20Kageneck%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1159,7 +1452,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=29%2C%20rue%20du%20Faubourg%20National%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20de%20vaccination%20Clinique%20Sainte-Barbe%2C%2029%2C%20rue%20du%20Faubourg%20National%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1177,7 +1475,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=Place%20du%20Quartier%20Blanc%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Vaccinodrome%2C%20Place%20du%20Quartier%20Blanc%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1195,7 +1498,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=1%2C%20place%20du%20Mar%C3%A9chal%20de%20Lattre%20de%20Tassigny%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20de%20vaccination%20La%20Bourse%2C%201%2C%20place%20du%20Mar%C3%A9chal%20de%20Lattre%20de%20Tassigny%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1213,7 +1521,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=46%2C%20boulevard%20Clemenceau%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Internat%20ORT%20%282e%20site%29%2C%2046%2C%20boulevard%20Clemenceau%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1231,7 +1544,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=2%2C%20rue%20de%20Molsheim%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Groupement%20de%20gendarmerie%20du%20Bas-Rhin%2C%202%2C%20rue%20de%20Molsheim%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1249,7 +1567,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=37%2C%20boulevard%20Clemenceau%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=CFIAR%20et%20GSBdD%20SHC%20-%20Caserne%20Stirn%2C%2037%2C%20boulevard%20Clemenceau%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1267,7 +1590,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=17%2C%20rue%20de%20Nicosie%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Synagogue%20de%20l%27Esplanade%2C%2017%2C%20rue%20de%20Nicosie%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1285,7 +1613,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=6%2C%20rue%20Averro%C3%A8s%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Grande%20Mosqu%C3%A9e%2C%206%2C%20rue%20Averro%C3%A8s%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1303,7 +1636,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=6%2C%20rue%20de%20la%20Fayette%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Mosqu%C3%A9e%20Eyyub%20Sultan%2C%206%2C%20rue%20de%20la%20Fayette%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1321,7 +1659,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=1%2C%20rue%20Munch%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20Saint%20Guillaume%2C%201%2C%20rue%20Munch%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1339,7 +1682,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=4%2C%20place%20Sainte%20Madeleine%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89glise%20Sainte%20Madeleine%2C%204%2C%20place%20Sainte%20Madeleine%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1357,7 +1705,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=3%2C%20place%20Dauphine%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20commercial%20Rive%20%C3%89toile%2C%203%2C%20place%20Dauphine%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1375,7 +1728,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=33%2C%20rue%20de%20S%C3%A9lestat%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Commissariat%20de%20Police%20de%20Neudorf%2C%2033%2C%20rue%20de%20S%C3%A9lestat%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1393,7 +1751,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=34%2C%20route%20de%20l%27H%C3%B4pital%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=H%C3%B4tel%20de%20police%2C%2034%2C%20route%20de%20l%27H%C3%B4pital%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1411,7 +1774,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=1%2C%20parc%20de%20l%27%C3%89toile%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Police%20municipale%2C%201%2C%20parc%20de%20l%27%C3%89toile%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1429,7 +1797,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=15%2C%20rue%20de%20Gen%C3%A8ve%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20m%C3%A9dico-social%20Bourse-Esplanade-Krutenau%2C%2015%2C%20rue%20de%20Gen%C3%A8ve%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1447,7 +1820,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=32%2C%20rue%20de%20Rathsamhausen%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Centre%20m%C3%A9dico-social%20Neudorf%2C%2032%2C%20rue%20de%20Rathsamhausen%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1465,7 +1843,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=190%2C%20avenue%20de%20Colmar%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Lyc%C3%A9e%20Couffignal%2C%20190%2C%20avenue%20de%20Colmar%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1483,7 +1866,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=5%2C%20rue%20Edmond%20Labbe%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Lyc%C3%A9e%20Jean%20Rostand%2C%205%2C%20rue%20Edmond%20Labbe%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1501,7 +1889,12 @@
           <a class="btn waze" href="https://waze.com/ul?q=42%2C%20rue%20Lauth%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Caserne%20Turenne%2C%2042%2C%20rue%20Lauth%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
       </div>
     </li>
     
@@ -1571,6 +1964,77 @@
   }
 
   applyDoneSet(loadDoneSet());
+
+  // --- Signalement de problème par point ---
+  const REPORT_KEY = 'patrouille5eEscadron_reports';
+
+  function loadReports() {
+    try {
+      const raw = localStorage.getItem(REPORT_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveReports(obj) {
+    try {
+      localStorage.setItem(REPORT_KEY, JSON.stringify(obj));
+    } catch (e) { /* stockage indisponible */ }
+  }
+
+  function refreshStopFlag(li, text) {
+    const flag = li.querySelector('.report-flag');
+    if (text && text.trim().length > 0) {
+      li.classList.add('reported');
+      flag.style.display = 'block';
+    } else {
+      li.classList.remove('reported');
+      flag.style.display = 'none';
+    }
+  }
+
+  function applyReports(obj) {
+    document.querySelectorAll('.stop').forEach(li => {
+      const id = li.getAttribute('data-stop-id');
+      const text = obj[id] || '';
+      const textarea = li.querySelector('.report-text');
+      textarea.value = text;
+      refreshStopFlag(li, text);
+      if (text && text.trim().length > 0) {
+        li.querySelector('.report-box').style.display = 'block';
+        li.querySelector('.btn.report').classList.add('active');
+      }
+    });
+  }
+
+  function toggleReport(btn) {
+    const li = btn.closest('.stop');
+    const box = li.querySelector('.report-box');
+    const isOpen = box.style.display !== 'none';
+    box.style.display = isOpen ? 'none' : 'block';
+    if (!isOpen) {
+      li.querySelector('.report-text').focus();
+    }
+  }
+
+  function saveReport(textarea) {
+    const li = textarea.closest('.stop');
+    const id = li.getAttribute('data-stop-id');
+    const text = textarea.value;
+    const reports = loadReports();
+    if (text.trim().length > 0) {
+      reports[id] = text;
+      li.querySelector('.btn.report').classList.add('active');
+    } else {
+      delete reports[id];
+      li.querySelector('.btn.report').classList.remove('active');
+    }
+    saveReports(reports);
+    refreshStopFlag(li, text);
+  }
+
+  applyReports(loadReports());
 </script>
 </body>
 </html>
