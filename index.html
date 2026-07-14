@@ -210,12 +210,12 @@
 <body>
 <header>
   <h1>Patrouille 5e Escadron</h1>
-  <div class="subtitle">73 points · ZP21 → ZP12 (déjeuner Stirn) → ZP22 → retour Turenne</div>
+  <div class="subtitle">73 points · essence → ZP21 → ZP12 (déjeuner Stirn) → ZP22 → retour Turenne</div>
   <div class="header-row">
     <div class="progress-wrap"><div class="progress-bar" id="bar"></div></div>
     <button class="reset-btn" onclick="resetAll()">Tout décocher</button>
   </div>
-  <div class="progress-label" id="progress-label">0 / 73 faits</div>
+  <div class="progress-label" id="progress-label">0 / 74 faits</div>
 </header>
 <ul>
 
@@ -242,8 +242,31 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M06-2">
+    <li class="stop special no-count" style="--zone-color:#C9A24B" data-stop-id="ESS1-2">
       <div class="stop-num">2</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP21</span><span class="tag special">ESSENCE</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Station essence</div>
+        <div class="stop-addr">12, route du Rhin, 67400 Illkirch-Graffenstaden, Strasbourg</div>
+        <div class="note">Plein avant retour Turenne</div>
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=12%2C%20route%20du%20Rhin%2C%2067400%20Illkirch-Graffenstaden%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Station%20essence%2C%2012%2C%20route%20du%20Rhin%2C%2067400%20Illkirch-Graffenstaden%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
+        </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M06-3">
+      <div class="stop-num">3</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -265,8 +288,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M08-3">
-      <div class="stop-num">3</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M08-4">
+      <div class="stop-num">4</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -288,8 +311,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M59-4">
-      <div class="stop-num">4</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M59-5">
+      <div class="stop-num">5</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -311,8 +334,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M09-5">
-      <div class="stop-num">5</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M09-6">
+      <div class="stop-num">6</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -334,8 +357,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M16-6">
-      <div class="stop-num">6</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M16-7">
+      <div class="stop-num">7</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -357,8 +380,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M18-7">
-      <div class="stop-num">7</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M18-8">
+      <div class="stop-num">8</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -380,8 +403,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M20-8">
-      <div class="stop-num">8</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M20-9">
+      <div class="stop-num">9</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -403,8 +426,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M21-9">
-      <div class="stop-num">9</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M21-10">
+      <div class="stop-num">10</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -426,8 +449,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M50-10">
-      <div class="stop-num">10</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M50-11">
+      <div class="stop-num">11</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -449,8 +472,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M51-11">
-      <div class="stop-num">11</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M51-12">
+      <div class="stop-num">12</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -472,8 +495,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M60-12">
-      <div class="stop-num">12</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M60-13">
+      <div class="stop-num">13</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -495,8 +518,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M67-13">
-      <div class="stop-num">13</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M67-14">
+      <div class="stop-num">14</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -518,8 +541,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M71-14">
-      <div class="stop-num">14</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M71-15">
+      <div class="stop-num">15</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -541,8 +564,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="Mili 4-15">
-      <div class="stop-num">15</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="Mili 4-16">
+      <div class="stop-num">16</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -564,8 +587,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="S12-16">
-      <div class="stop-num">16</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="S12-17">
+      <div class="stop-num">17</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -587,8 +610,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M81-17">
-      <div class="stop-num">17</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M81-18">
+      <div class="stop-num">18</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -610,8 +633,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M82-18">
-      <div class="stop-num">18</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M82-19">
+      <div class="stop-num">19</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -633,8 +656,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M83-19">
-      <div class="stop-num">19</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M83-20">
+      <div class="stop-num">20</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -656,8 +679,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M84-20">
-      <div class="stop-num">20</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M84-21">
+      <div class="stop-num">21</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -679,8 +702,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="SP-21">
-      <div class="stop-num">21</div>
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="SP-22">
+      <div class="stop-num">22</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span>
@@ -702,8 +725,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M07-22">
-      <div class="stop-num">22</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M07-23">
+      <div class="stop-num">23</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -725,8 +748,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M61-23">
-      <div class="stop-num">23</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M61-24">
+      <div class="stop-num">24</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -748,8 +771,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M02-24">
-      <div class="stop-num">24</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M02-25">
+      <div class="stop-num">25</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -771,8 +794,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M12-25">
-      <div class="stop-num">25</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M12-26">
+      <div class="stop-num">26</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -794,8 +817,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M13-26">
-      <div class="stop-num">26</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M13-27">
+      <div class="stop-num">27</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -817,8 +840,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M03-27">
-      <div class="stop-num">27</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M03-28">
+      <div class="stop-num">28</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -840,8 +863,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M05-28">
-      <div class="stop-num">28</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M05-29">
+      <div class="stop-num">29</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -863,8 +886,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M17-29">
-      <div class="stop-num">29</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M17-30">
+      <div class="stop-num">30</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -886,8 +909,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M30-30">
-      <div class="stop-num">30</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M30-31">
+      <div class="stop-num">31</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -909,8 +932,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M31-31">
-      <div class="stop-num">31</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M31-32">
+      <div class="stop-num">32</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -932,8 +955,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M88-32">
-      <div class="stop-num">32</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M88-33">
+      <div class="stop-num">33</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -955,8 +978,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M11-33">
-      <div class="stop-num">33</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M11-34">
+      <div class="stop-num">34</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -978,8 +1001,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M90-34">
-      <div class="stop-num">34</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M90-35">
+      <div class="stop-num">35</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1001,8 +1024,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M89-35">
-      <div class="stop-num">35</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M89-36">
+      <div class="stop-num">36</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1024,8 +1047,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M54-36">
-      <div class="stop-num">36</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M54-37">
+      <div class="stop-num">37</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1047,8 +1070,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M55-37">
-      <div class="stop-num">37</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M55-38">
+      <div class="stop-num">38</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1070,8 +1093,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M56-38">
-      <div class="stop-num">38</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M56-39">
+      <div class="stop-num">39</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1093,8 +1116,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="S06-39">
-      <div class="stop-num">39</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="S06-40">
+      <div class="stop-num">40</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1116,8 +1139,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="S01/S02-40">
-      <div class="stop-num">40</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="S01/S02-41">
+      <div class="stop-num">41</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1139,8 +1162,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="S03-41">
-      <div class="stop-num">41</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="S03-42">
+      <div class="stop-num">42</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1162,8 +1185,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M57-42">
-      <div class="stop-num">42</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M57-43">
+      <div class="stop-num">43</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1185,8 +1208,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M58-43">
-      <div class="stop-num">43</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M58-44">
+      <div class="stop-num">44</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1208,8 +1231,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M66-44">
-      <div class="stop-num">44</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M66-45">
+      <div class="stop-num">45</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1231,8 +1254,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M63-45">
-      <div class="stop-num">45</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M63-46">
+      <div class="stop-num">46</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1254,8 +1277,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M64-46">
-      <div class="stop-num">46</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M64-47">
+      <div class="stop-num">47</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1277,8 +1300,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M85-47">
-      <div class="stop-num">47</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M85-48">
+      <div class="stop-num">48</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1300,8 +1323,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M91-48">
-      <div class="stop-num">48</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M91-49">
+      <div class="stop-num">49</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1323,8 +1346,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M92-49">
-      <div class="stop-num">49</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M92-50">
+      <div class="stop-num">50</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1346,8 +1369,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="Mili 1-50">
-      <div class="stop-num">50</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="Mili 1-51">
+      <div class="stop-num">51</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1369,8 +1392,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="GS-51">
-      <div class="stop-num">51</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="GS-52">
+      <div class="stop-num">52</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1392,8 +1415,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="PG-52">
-      <div class="stop-num">52</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="PG-53">
+      <div class="stop-num">53</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1415,8 +1438,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="S08-53">
-      <div class="stop-num">53</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="S08-54">
+      <div class="stop-num">54</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1438,8 +1461,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="S07-54">
-      <div class="stop-num">54</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="S07-55">
+      <div class="stop-num">55</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1461,8 +1484,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="S04-55">
-      <div class="stop-num">55</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="S04-56">
+      <div class="stop-num">56</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1484,8 +1507,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="S05-56">
-      <div class="stop-num">56</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="S05-57">
+      <div class="stop-num">57</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1507,8 +1530,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M04-57">
-      <div class="stop-num">57</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M04-58">
+      <div class="stop-num">58</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1530,8 +1553,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="Mili 5-58">
-      <div class="stop-num">58</div>
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="Mili 5-59">
+      <div class="stop-num">59</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span>
@@ -1553,8 +1576,8 @@
       </div>
     </li>
     
-    <li class="stop special" style="--zone-color:#B85C38" data-stop-id="Mili 2-59">
-      <div class="stop-num">59</div>
+    <li class="stop special" style="--zone-color:#B85C38" data-stop-id="Mili 2-60">
+      <div class="stop-num">60</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag special">DÉJEUNER</span>
@@ -1576,8 +1599,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M15-60">
-      <div class="stop-num">60</div>
+    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M15-61">
+      <div class="stop-num">61</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span>
@@ -1599,8 +1622,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M41-61">
-      <div class="stop-num">61</div>
+    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M41-62">
+      <div class="stop-num">62</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span>
@@ -1622,8 +1645,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M42-62">
-      <div class="stop-num">62</div>
+    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M42-63">
+      <div class="stop-num">63</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span>
@@ -1645,8 +1668,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M65-63">
-      <div class="stop-num">63</div>
+    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M65-64">
+      <div class="stop-num">64</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span>
@@ -1668,8 +1691,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M72-64">
-      <div class="stop-num">64</div>
+    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M72-65">
+      <div class="stop-num">65</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span>
@@ -1691,8 +1714,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M87-65">
-      <div class="stop-num">65</div>
+    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M87-66">
+      <div class="stop-num">66</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span>
@@ -1714,8 +1737,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M93-66">
-      <div class="stop-num">66</div>
+    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M93-67">
+      <div class="stop-num">67</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span>
@@ -1737,8 +1760,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M95-67">
-      <div class="stop-num">67</div>
+    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M95-68">
+      <div class="stop-num">68</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span>
@@ -1760,8 +1783,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M96-68">
-      <div class="stop-num">68</div>
+    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M96-69">
+      <div class="stop-num">69</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span>
@@ -1783,8 +1806,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="S09-69">
-      <div class="stop-num">69</div>
+    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="S09-70">
+      <div class="stop-num">70</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span>
@@ -1806,8 +1829,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="S10-70">
-      <div class="stop-num">70</div>
+    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="S10-71">
+      <div class="stop-num">71</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span>
@@ -1829,8 +1852,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M113-71">
-      <div class="stop-num">71</div>
+    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M113-72">
+      <div class="stop-num">72</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span>
@@ -1852,8 +1875,8 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M114-72">
-      <div class="stop-num">72</div>
+    <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M114-73">
+      <div class="stop-num">73</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span>
@@ -1875,8 +1898,8 @@
       </div>
     </li>
     
-    <li class="stop special" style="--zone-color:#C9A24B" data-stop-id="Mili 3-73">
-      <div class="stop-num">73</div>
+    <li class="stop special" style="--zone-color:#C9A24B" data-stop-id="Mili 3-74">
+      <div class="stop-num">74</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag special">RETOUR</span>
@@ -1899,9 +1922,9 @@
     </li>
     
 </ul>
-<footer>Tape "Fait" pour cocher un point. L'état est sauvegardé automatiquement sur ce téléphone.</footer>
+<footer>Tape "Fait" pour cocher un point. L'état est sauvegardé automatiquement sur ce téléphone.<br>Version 1.4</footer>
 <script>
-  const total = 73;
+  const total = 74 - 1;
   const STORAGE_KEY = 'patrouille5eEscadron_done';
 
   function loadDoneSet() {
@@ -1920,7 +1943,7 @@
   }
 
   function updateProgress() {
-    const done = document.querySelectorAll('.stop.marked').length;
+    const done = document.querySelectorAll('.stop.marked:not(.no-count)').length;
     document.getElementById('bar').style.width = (done/total*100) + '%';
     document.getElementById('progress-label').textContent = done + ' / ' + total + ' faits';
   }
