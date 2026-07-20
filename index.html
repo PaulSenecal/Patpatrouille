@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<title>Patrouille 5e Escadron</title>
+<title>Itinéraire des ZP</title>
 <style>
   :root {
     --bg: #14181a;
@@ -120,6 +120,53 @@
     white-space: nowrap;
   }
   .reset-btn:active { background: #3a4448; }
+  .search-box {
+    width: 100%;
+    margin-top: 10px;
+    background: #20272a;
+    border: 1px solid #2c3438;
+    border-radius: 10px;
+    color: var(--ink);
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+  .search-box::placeholder { color: var(--sub); }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .filter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .filter-check {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: var(--sub);
+  }
+  .filter-check input {
+    width: 16px;
+    height: 16px;
+  }
+  .mail-btn {
+    background: #2c3438;
+    color: var(--ink);
+    border: none;
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .mail-btn:active { background: #3a4448; }
+  .filter-empty {
+    text-align: center;
+    color: var(--sub);
+    font-size: 0.85rem;
+    padding: 30px 20px;
+  }
   ul.stop-list {
     list-style: none;
     margin: 0;
@@ -250,22 +297,64 @@
     font-size: 0.75rem;
     padding: 10px 20px 30px;
   }
+  .contact-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  .contact-row a {
+    color: var(--sub);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.78rem;
+    background: #20272a;
+    padding: 7px 12px;
+    border-radius: 999px;
+  }
+  .info-card {
+    margin: 0 12px 12px;
+    background: #1c2427;
+    border: 1px solid var(--card-border);
+    border-left: 4px solid #4a90a4;
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .info-title {
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    color: #7fd6ea;
+  }
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--ink);
+    padding: 3px 0;
+  }
+  .info-row span:first-child { color: var(--sub); }
+  .info-row.warn span:last-child {
+    color: #ff9c8c;
+    font-weight: 700;
+  }
 </style>
 </head>
 <body>
 <header>
   <div class="title-row">
-    <h1>Patrouille 5e Escadron</h1>
-    <span class="version-badge">v2.3</span>
+    <h1>Itinéraire des ZP</h1>
+    <span class="version-badge">v3.3</span>
   </div>
-  <div class="subtitle">72 points · déjeuner Stirn · retour Turenne</div>
+  <div class="subtitle">71 points · déjeuner Stirn · retour Turenne</div>
 
   <div class="toggle-wrap">
     <button class="toggle-btn active" id="btn-opt" onclick="switchView('opt')">
-      Optimisé <span class="dist">35.4 km</span>
+      Optimisé <span class="dist">35.6 km</span>
     </button>
     <button class="toggle-btn" id="btn-man" onclick="switchView('man')">
-      Non optimisé <span class="dist">70.9 km</span>
+      Non optimisé <span class="dist">71.1 km</span>
     </button>
   </div>
 
@@ -273,11 +362,32 @@
     <div class="progress-wrap"><div class="progress-bar" id="bar"></div></div>
     <button class="reset-btn" onclick="resetAll()">Tout décocher</button>
   </div>
-  <div class="progress-label" id="progress-label">0 / 72 faits</div>
+  <div class="progress-label" id="progress-label">0 / 71 faits</div>
+
+  <input type="text" id="search-box" class="search-box" placeholder="Rechercher par nom ou code (ex: M16, SP...)" oninput="applyFilter()">
+
+  <div class="filter-row">
+    <label class="filter-check">
+      <input type="checkbox" id="filter-reported" onchange="applyFilter()">
+      Signalés seulement
+    </label>
+    <button class="mail-btn" onclick="sendReportsByMail()">✉ Envoyer les signalements</button>
+  </div>
 </header>
 
+<div class="info-card">
+  <div class="info-title">🍽 Horaires repas - Antenne Stirn</div>
+  <div class="info-row"><span>Déjeuner lun-jeu</span><span>11h30 - 13h00</span></div>
+  <div class="info-row"><span>Déjeuner vendredi</span><span>11h15 - 12h45</span></div>
+  <div class="info-row"><span>Déjeuner sam-dim</span><span>11h30 - 13h00</span></div>
+  <div class="info-row"><span>Dîner (sauf dim.)</span><span>17h45 - 19h00</span></div>
+  <div class="info-row warn"><span>Dimanche soir</span><span>Fermé - carte Sodexo</span></div>
+</div>
+
+<div id="filter-empty" class="filter-empty" style="display:none">Aucun point ne correspond.</div>
+
 <ul id="list-opt" class="stop-list">
-    <li class="stop special" style="--zone-color:#C9A24B" data-stop-id="Mili 3">
+    <li class="stop special no-count" style="--zone-color:#C9A24B" data-stop-id="Mili 3">
       <div class="stop-num">1</div>
       <div class="stop-body">
         <div class="stop-top">
@@ -300,8 +410,31 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M51">
+    <li class="stop special no-count" style="--zone-color:#555" data-stop-id="ESS1">
       <div class="stop-num">2</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag special">ESSENCE</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Station essence</div>
+        <div class="stop-addr">12, route du Rhin, 67400 Illkirch-Graffenstaden, Strasbourg</div>
+        <div class="note">Plein avant retour Turenne</div>
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=12%2C%20route%20du%20Rhin%2C%2067400%20Illkirch-Graffenstaden%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Station%20essence%2C%2012%2C%20route%20du%20Rhin%2C%2067400%20Illkirch-Graffenstaden%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
+        </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M51">
+      <div class="stop-num">3</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">M51</span>
@@ -324,7 +457,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M82">
-      <div class="stop-num">3</div>
+      <div class="stop-num">4</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">M82</span>
@@ -347,7 +480,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M83">
-      <div class="stop-num">4</div>
+      <div class="stop-num">5</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">M83</span>
@@ -370,7 +503,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M81">
-      <div class="stop-num">5</div>
+      <div class="stop-num">6</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">M81</span>
@@ -393,7 +526,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M21">
-      <div class="stop-num">6</div>
+      <div class="stop-num">7</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">M21</span>
@@ -416,7 +549,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M50">
-      <div class="stop-num">7</div>
+      <div class="stop-num">8</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">M50</span>
@@ -439,7 +572,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M18">
-      <div class="stop-num">8</div>
+      <div class="stop-num">9</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">M18</span>
@@ -462,7 +595,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M06">
-      <div class="stop-num">9</div>
+      <div class="stop-num">10</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">M06</span>
@@ -485,7 +618,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M67">
-      <div class="stop-num">10</div>
+      <div class="stop-num">11</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">M67</span>
@@ -508,7 +641,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M09">
-      <div class="stop-num">11</div>
+      <div class="stop-num">12</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">M09</span>
@@ -531,7 +664,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M16">
-      <div class="stop-num">12</div>
+      <div class="stop-num">13</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">M16</span>
@@ -554,7 +687,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="SP">
-      <div class="stop-num">13</div>
+      <div class="stop-num">14</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">SP</span>
@@ -577,7 +710,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M08">
-      <div class="stop-num">14</div>
+      <div class="stop-num">15</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">M08</span>
@@ -600,7 +733,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M59">
-      <div class="stop-num">15</div>
+      <div class="stop-num">16</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">M59</span>
@@ -623,7 +756,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M20">
-      <div class="stop-num">16</div>
+      <div class="stop-num">17</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">M20</span>
@@ -646,7 +779,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M84">
-      <div class="stop-num">17</div>
+      <div class="stop-num">18</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">M84</span>
@@ -669,7 +802,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="S12">
-      <div class="stop-num">18</div>
+      <div class="stop-num">19</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">S12</span>
@@ -692,7 +825,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="Mili 4">
-      <div class="stop-num">19</div>
+      <div class="stop-num">20</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">Mili 4</span>
@@ -715,7 +848,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M71">
-      <div class="stop-num">20</div>
+      <div class="stop-num">21</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">M71</span>
@@ -738,7 +871,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#C9A24B" data-stop-id="M60">
-      <div class="stop-num">21</div>
+      <div class="stop-num">22</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP21</span><span class="tag code">M60</span>
@@ -761,7 +894,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M91">
-      <div class="stop-num">22</div>
+      <div class="stop-num">23</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M91</span>
@@ -784,7 +917,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M92">
-      <div class="stop-num">23</div>
+      <div class="stop-num">24</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M92</span>
@@ -807,7 +940,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M02">
-      <div class="stop-num">24</div>
+      <div class="stop-num">25</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M02</span>
@@ -819,29 +952,6 @@
         <div class="actions">
           <a class="btn waze" href="https://waze.com/ul?q=4%2C%20rue%20Baldung-Grien%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89cole%20AQUIBA%2C%204%2C%20rue%20Baldung-Grien%2C%20Strasbourg">Maps</a>
-          <button class="btn done" onclick="toggleDone(this)">Fait</button>
-          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
-        </div>
-        <div class="report-box" style="display:none">
-          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
-        </div>
-        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
-      </div>
-    </li>
-    
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M03">
-      <div class="stop-num">25</div>
-      <div class="stop-body">
-        <div class="stop-top">
-          <span class="tag">ZP12</span><span class="tag code">M03</span>
-          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
-        </div>
-        <div class="stop-name">École ORT et Internat ORT</div>
-        <div class="stop-addr">11 & 14, rue Sellenick, Strasbourg</div>
-        
-        <div class="actions">
-          <a class="btn waze" href="https://waze.com/ul?q=11%20%26%2014%2C%20rue%20Sellenick%2C%20Strasbourg&navigate=yes">Waze</a>
-          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89cole%20ORT%20et%20Internat%20ORT%2C%2011%20%26%2014%2C%20rue%20Sellenick%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
           <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
@@ -875,19 +985,19 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M17">
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M03">
       <div class="stop-num">27</div>
       <div class="stop-body">
         <div class="stop-top">
-          <span class="tag">ZP12</span><span class="tag code">M17</span>
+          <span class="tag">ZP12</span><span class="tag code">M03</span>
           <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
         </div>
-        <div class="stop-name">Synagogue Adath Israël</div>
-        <div class="stop-addr">9, rue Sellenick, Strasbourg</div>
+        <div class="stop-name">École ORT et Internat ORT</div>
+        <div class="stop-addr">11 & 14, rue Sellenick, Strasbourg</div>
         
         <div class="actions">
-          <a class="btn waze" href="https://waze.com/ul?q=9%2C%20rue%20Sellenick%2C%20Strasbourg&navigate=yes">Waze</a>
-          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Synagogue%20Adath%20Isra%C3%ABl%2C%209%2C%20rue%20Sellenick%2C%20Strasbourg">Maps</a>
+          <a class="btn waze" href="https://waze.com/ul?q=11%20%26%2014%2C%20rue%20Sellenick%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=%C3%89cole%20ORT%20et%20Internat%20ORT%2C%2011%20%26%2014%2C%20rue%20Sellenick%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
           <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
@@ -944,8 +1054,31 @@
       </div>
     </li>
     
-    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M54">
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M17">
       <div class="stop-num">30</div>
+      <div class="stop-body">
+        <div class="stop-top">
+          <span class="tag">ZP12</span><span class="tag code">M17</span>
+          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
+        </div>
+        <div class="stop-name">Synagogue Adath Israël</div>
+        <div class="stop-addr">9, rue Sellenick, Strasbourg</div>
+        
+        <div class="actions">
+          <a class="btn waze" href="https://waze.com/ul?q=9%2C%20rue%20Sellenick%2C%20Strasbourg&navigate=yes">Waze</a>
+          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Synagogue%20Adath%20Isra%C3%ABl%2C%209%2C%20rue%20Sellenick%2C%20Strasbourg">Maps</a>
+          <button class="btn done" onclick="toggleDone(this)">Fait</button>
+          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
+        </div>
+        <div class="report-box" style="display:none">
+          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
+        </div>
+        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
+      </div>
+    </li>
+    
+    <li class="stop " style="--zone-color:#B85C38" data-stop-id="M54">
+      <div class="stop-num">31</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M54</span>
@@ -968,7 +1101,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M55">
-      <div class="stop-num">31</div>
+      <div class="stop-num">32</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M55</span>
@@ -991,7 +1124,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M31">
-      <div class="stop-num">32</div>
+      <div class="stop-num">33</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M31</span>
@@ -1014,7 +1147,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M30">
-      <div class="stop-num">33</div>
+      <div class="stop-num">34</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M30</span>
@@ -1037,7 +1170,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M11">
-      <div class="stop-num">34</div>
+      <div class="stop-num">35</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M11</span>
@@ -1060,7 +1193,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M61">
-      <div class="stop-num">35</div>
+      <div class="stop-num">36</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M61</span>
@@ -1083,7 +1216,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M07">
-      <div class="stop-num">36</div>
+      <div class="stop-num">37</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M07</span>
@@ -1106,7 +1239,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M90">
-      <div class="stop-num">37</div>
+      <div class="stop-num">38</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M90</span>
@@ -1129,7 +1262,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M88">
-      <div class="stop-num">38</div>
+      <div class="stop-num">39</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M88</span>
@@ -1152,7 +1285,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M12">
-      <div class="stop-num">39</div>
+      <div class="stop-num">40</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M12</span>
@@ -1175,7 +1308,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M57">
-      <div class="stop-num">40</div>
+      <div class="stop-num">41</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M57</span>
@@ -1198,7 +1331,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M58">
-      <div class="stop-num">41</div>
+      <div class="stop-num">42</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M58</span>
@@ -1221,7 +1354,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="S08">
-      <div class="stop-num">42</div>
+      <div class="stop-num">43</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">S08</span>
@@ -1244,7 +1377,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="GS">
-      <div class="stop-num">43</div>
+      <div class="stop-num">44</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">GS</span>
@@ -1267,7 +1400,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="PG">
-      <div class="stop-num">44</div>
+      <div class="stop-num">45</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">PG</span>
@@ -1290,7 +1423,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="S07">
-      <div class="stop-num">45</div>
+      <div class="stop-num">46</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">S07</span>
@@ -1313,7 +1446,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M64">
-      <div class="stop-num">46</div>
+      <div class="stop-num">47</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M64</span>
@@ -1336,7 +1469,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="Mili 5">
-      <div class="stop-num">47</div>
+      <div class="stop-num">48</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">Mili 5</span>
@@ -1359,7 +1492,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="S04">
-      <div class="stop-num">48</div>
+      <div class="stop-num">49</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">S04</span>
@@ -1382,7 +1515,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="S03">
-      <div class="stop-num">49</div>
+      <div class="stop-num">50</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">S03</span>
@@ -1405,7 +1538,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M85">
-      <div class="stop-num">50</div>
+      <div class="stop-num">51</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M85</span>
@@ -1428,7 +1561,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="S01/S02">
-      <div class="stop-num">51</div>
+      <div class="stop-num">52</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">S01/S02</span>
@@ -1451,7 +1584,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M63">
-      <div class="stop-num">52</div>
+      <div class="stop-num">53</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M63</span>
@@ -1474,7 +1607,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M66">
-      <div class="stop-num">53</div>
+      <div class="stop-num">54</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M66</span>
@@ -1497,7 +1630,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M56">
-      <div class="stop-num">54</div>
+      <div class="stop-num">55</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M56</span>
@@ -1520,7 +1653,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="S06">
-      <div class="stop-num">55</div>
+      <div class="stop-num">56</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">S06</span>
@@ -1543,7 +1676,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="S05">
-      <div class="stop-num">56</div>
+      <div class="stop-num">57</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">S05</span>
@@ -1566,7 +1699,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="Mili 1">
-      <div class="stop-num">57</div>
+      <div class="stop-num">58</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">Mili 1</span>
@@ -1589,7 +1722,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#B85C38" data-stop-id="M89">
-      <div class="stop-num">58</div>
+      <div class="stop-num">59</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">M89</span>
@@ -1612,7 +1745,7 @@
     </li>
     
     <li class="stop special" style="--zone-color:#B85C38" data-stop-id="Mili 2">
-      <div class="stop-num">59</div>
+      <div class="stop-num">60</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP12</span><span class="tag code">Mili 2</span><span class="tag special">DÉJEUNER</span>
@@ -1635,7 +1768,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M65">
-      <div class="stop-num">60</div>
+      <div class="stop-num">61</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span><span class="tag code">M65</span>
@@ -1658,7 +1791,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M72">
-      <div class="stop-num">61</div>
+      <div class="stop-num">62</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span><span class="tag code">M72</span>
@@ -1681,7 +1814,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="S09">
-      <div class="stop-num">62</div>
+      <div class="stop-num">63</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span><span class="tag code">S09</span>
@@ -1704,7 +1837,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M87">
-      <div class="stop-num">63</div>
+      <div class="stop-num">64</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span><span class="tag code">M87</span>
@@ -1727,7 +1860,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M96">
-      <div class="stop-num">64</div>
+      <div class="stop-num">65</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span><span class="tag code">M96</span>
@@ -1750,7 +1883,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M95">
-      <div class="stop-num">65</div>
+      <div class="stop-num">66</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span><span class="tag code">M95</span>
@@ -1773,7 +1906,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M41">
-      <div class="stop-num">66</div>
+      <div class="stop-num">67</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span><span class="tag code">M41</span>
@@ -1796,7 +1929,7 @@
     </li>
     
     <li class="stop " style="--zone-color:#4C7A5E" data-stop-id="M42">
-      <div class="stop-num">67</div>
+      <div class="stop-num">68</div>
       <div class="stop-body">
         <div class="stop-top">
           <span class="tag">ZP22</span><span class="tag code">M42</span>
@@ -1808,29 +1941,6 @@
         <div class="actions">
           <a class="btn waze" href="https://waze.com/ul?q=6%2C%20rue%20de%20la%20Fayette%2C%20Strasbourg&navigate=yes">Waze</a>
           <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Mosqu%C3%A9e%20Eyyub%20Sultan%2C%206%2C%20rue%20de%20la%20Fayette%2C%20Strasbourg">Maps</a>
-          <button class="btn done" onclick="toggleDone(this)">Fait</button>
-          <button class="btn report" onclick="toggleReport(this)">Signaler</button>
-        </div>
-        <div class="report-box" style="display:none">
-          <textarea class="report-text" placeholder="Décris le problème rencontré sur ce point..." oninput="saveReport(this)"></textarea>
-        </div>
-        <div class="report-flag" style="display:none">⚠ Problème signalé</div>
-      </div>
-    </li>
-    
-    <li class="stop special no-count" style="--zone-color:#C9A24B" data-stop-id="ESS1">
-      <div class="stop-num">68</div>
-      <div class="stop-body">
-        <div class="stop-top">
-          <span class="tag">ZP21</span><span class="tag special">ESSENCE</span>
-          <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
-        </div>
-        <div class="stop-name">Station essence</div>
-        <div class="stop-addr">12, route du Rhin, 67400 Illkirch-Graffenstaden, Strasbourg</div>
-        <div class="note">Plein avant retour Turenne</div>
-        <div class="actions">
-          <a class="btn waze" href="https://waze.com/ul?q=12%2C%20route%20du%20Rhin%2C%2067400%20Illkirch-Graffenstaden%2C%20Strasbourg&navigate=yes">Waze</a>
-          <a class="btn maps" href="https://www.google.com/maps/search/?api=1&query=Station%20essence%2C%2012%2C%20route%20du%20Rhin%2C%2067400%20Illkirch-Graffenstaden%2C%20Strasbourg">Maps</a>
           <button class="btn done" onclick="toggleDone(this)">Fait</button>
           <button class="btn report" onclick="toggleReport(this)">Signaler</button>
         </div>
@@ -1956,7 +2066,7 @@
       </div>
     </li>
     
-    <li class="stop special" style="--zone-color:#C9A24B" data-stop-id="Mili 3">
+    <li class="stop special no-count" style="--zone-color:#C9A24B" data-stop-id="Mili 3">
       <div class="stop-num">74</div>
       <div class="stop-body">
         <div class="stop-top">
@@ -1980,7 +2090,7 @@
     </li>
     </ul>
 <ul id="list-man" class="stop-list">
-    <li class="stop special" style="--zone-color:#C9A24B" data-stop-id="Mili 3">
+    <li class="stop special no-count" style="--zone-color:#C9A24B" data-stop-id="Mili 3">
       <div class="stop-num">1</div>
       <div class="stop-body">
         <div class="stop-top">
@@ -2003,11 +2113,11 @@
       </div>
     </li>
     
-    <li class="stop special no-count" style="--zone-color:#C9A24B" data-stop-id="ESS1">
+    <li class="stop special no-count" style="--zone-color:#555" data-stop-id="ESS1">
       <div class="stop-num">2</div>
       <div class="stop-body">
         <div class="stop-top">
-          <span class="tag">ZP21</span><span class="tag special">ESSENCE</span>
+          <span class="tag special">ESSENCE</span>
           <span class="statut" style="color:#2f6f4e;background:#e7f3ec">Actif</span>
         </div>
         <div class="stop-name">Station essence</div>
@@ -3659,7 +3769,7 @@
       </div>
     </li>
     
-    <li class="stop special" style="--zone-color:#C9A24B" data-stop-id="Mili 3">
+    <li class="stop special no-count" style="--zone-color:#C9A24B" data-stop-id="Mili 3">
       <div class="stop-num">74</div>
       <div class="stop-body">
         <div class="stop-top">
@@ -3683,9 +3793,15 @@
     </li>
     </ul>
 
-<footer>Tape "Fait" pour cocher un point. L'état est sauvegardé automatiquement sur ce téléphone, et partagé entre les deux vues (Optimisé / Non optimisé).</footer>
+<footer>
+  Tape "Fait" pour cocher un point. L'état est sauvegardé automatiquement sur ce téléphone, et partagé entre les deux vues (Optimisé / Non optimisé).
+  <div class="contact-row">
+    <a href="tel:0767734158">📞 07 67 73 41 58</a>
+    <a href="https://github.com/PaulSenecal" target="_blank" rel="noopener">🔗 github.com/PaulSenecal</a>
+  </div>
+</footer>
 <script>
-  const TOTAL = 72;
+  const TOTAL = 71;
   const DONE_KEY = 'patrouille5eEscadron_done';
   const REPORT_KEY = 'patrouille5eEscadron_reports';
 
@@ -3708,8 +3824,10 @@
     try { localStorage.setItem(REPORT_KEY, JSON.stringify(obj)); } catch (e) {}
   }
 
+  const NO_COUNT_CODES = new Set(['ESS1', 'Mili 3']);
+
   function updateProgress() {
-    const done = loadDoneSet().size;
+    const done = Array.from(loadDoneSet()).filter(id => !NO_COUNT_CODES.has(id)).length;
     document.getElementById('bar').style.width = (done/TOTAL*100) + '%';
     document.getElementById('progress-label').textContent = done + ' / ' + TOTAL + ' faits';
   }
@@ -3790,6 +3908,7 @@
     document.getElementById('list-man').classList.toggle('active', view === 'man');
     document.getElementById('btn-opt').classList.toggle('active', view === 'opt');
     document.getElementById('btn-man').classList.toggle('active', view === 'man');
+    if (document.getElementById('search-box')) applyFilter();
   }
 
   // Initialisation : appliquer l'etat sauvegarde aux deux vues, puis afficher la vue optimisee
@@ -3802,6 +3921,44 @@
   Object.keys(savedReports).forEach(id => applyReportToAll(id, savedReports[id]));
   updateProgress();
   switchView('opt');
+
+  // --- Recherche, filtre "signales", export mail ---
+  const CODE_INFO = {"Mili 3": {"nom": "Caserne Turenne", "adresse": "42, rue Lauth"}, "M51": {"nom": "Centre d'étude International Yechiva", "adresse": "2, allée Spach"}, "M82": {"nom": "Conseil de l'Europe", "adresse": "Avenue de l'Europe"}, "M83": {"nom": "Cour européenne des Droits de l'Homme", "adresse": "Allée des droits de l'Homme"}, "M81": {"nom": "Parlement Européen", "adresse": "Allée du Printemps"}, "M21": {"nom": "Consulat d'Israël", "adresse": "20, rue Gottfried"}, "M50": {"nom": "Synagogue oratoire Ami", "adresse": "1, rue de Silbermann"}, "M18": {"nom": "Oratoire Hafetz Haim / Synagogue Yechiva Eshel", "adresse": "19, rue Schweighaeuser"}, "M06": {"nom": "École primaire Tachbar", "adresse": "3, rue de Goethe"}, "M67": {"nom": "Église réformée Saint Paul", "adresse": "1, place du Général Eisenhower"}, "M09": {"nom": "École Torat Emet - Association les Eaux Vives", "adresse": "14, avenue des Vosges"}, "M16": {"nom": "Synagogue Ets'Haïm", "adresse": "7, rue de Turenne"}, "SP": {"nom": "Synagogue de la paix", "adresse": "Rue René Hirschler / Avenue de la Paix"}, "M08": {"nom": "Jardin d'enfants Rechit Hochma", "adresse": "42, avenue de la Forêt Noire"}, "M59": {"nom": "Église Saint Maurice", "adresse": "41, avenue de la Forêt Noire"}, "M20": {"nom": "Synagogue Chearim", "adresse": "10, rue de Verdun"}, "M84": {"nom": "Couvent des Dominicains", "adresse": "41, boulevard de la Victoire"}, "S12": {"nom": "Centre médico-social Orangerie", "adresse": "20, rue de Rotterdam"}, "Mili 4": {"nom": "Recrutement de la légion étrangère", "adresse": "1, rue d'Ostende"}, "M71": {"nom": "Église protestante Saint Matthieu", "adresse": "97, boulevard d'Anvers"}, "M60": {"nom": "Église catholique Saint Bernard", "adresse": "4, boulevard Jean-Sébastien Bach"}, "M91": {"nom": "Tribunal administratif", "adresse": "31, avenue de la Paix"}, "M92": {"nom": "Conseil de Prud'hommes", "adresse": "19, avenue de la Paix"}, "M02": {"nom": "École AQUIBA", "adresse": "4, rue Baldung-Grien"}, "M03": {"nom": "École ORT et Internat ORT", "adresse": "11 & 14, rue Sellenick"}, "M05": {"nom": "Centre Eshel", "adresse": "23, rue Sellenick"}, "M17": {"nom": "Synagogue Adath Israël", "adresse": "9, rue Sellenick"}, "M13": {"nom": "Association relais jeune", "adresse": "13, rue du Général Rapp"}, "M04": {"nom": "Internat ORT (2e site)", "adresse": "46, boulevard Clemenceau"}, "M54": {"nom": "Site n°12", "adresse": "7, rue Saint-Léon"}, "M55": {"nom": "Communauté du puits de Jacob", "adresse": "5, rue Saint-Léon"}, "M31": {"nom": "Association Habourah", "adresse": "12, rue Finkmatt"}, "M30": {"nom": "Oratoir Esh Dat", "adresse": "11, rue Finkmatt"}, "M11": {"nom": "Crèche les Chérubins Haya Mouchka", "adresse": "31, rue du Fossé des Treize"}, "M61": {"nom": "Chapelle Notre Dame du Très Saint Rosaire", "adresse": "28, rue du Faubourg de Pierre"}, "M07": {"nom": "École Beth Hanna (1ère emprise)", "adresse": "59, rue du Faubourg de Pierre"}, "M90": {"nom": "Tribunal d'instance", "adresse": "43-45, rue du Fossé des Treize"}, "M88": {"nom": "Tribunal judiciaire", "adresse": "7, quai Finkmatt"}, "M12": {"nom": "Garderie Baby Cherry Tree", "adresse": "17B, rue de la Toussaint"}, "M57": {"nom": "Église Saint Jean", "adresse": "13, quai Saint Jean"}, "M58": {"nom": "Fraternité monastique de Jérusalem", "adresse": "13, quai Saint Jean"}, "S08": {"nom": "Centre médico-social Gare", "adresse": "31, rue Kageneck"}, "GS": {"nom": "Gare de Strasbourg", "adresse": "Place de la Gare"}, "PG": {"nom": "Place de la gare", "adresse": "Place de la Gare"}, "S07": {"nom": "Centre de vaccination Clinique Sainte-Barbe", "adresse": "29, rue du Faubourg National"}, "M64": {"nom": "Église Sainte Aurélie", "adresse": "16, rue Martin Bucer"}, "Mili 5": {"nom": "Groupement de gendarmerie du Bas-Rhin", "adresse": "2, rue de Molsheim"}, "S04": {"nom": "Vaccinodrome", "adresse": "Place du Quartier Blanc"}, "S03": {"nom": "Centre de secours Pompier", "adresse": "3, quai Finkwiller"}, "M85": {"nom": "Église Saint Louis", "adresse": "11, rue Saint Louis"}, "S01/S02": {"nom": "Hôpital Civil (CHU, centre de vaccination)", "adresse": "Quai Louis Pasteur"}, "M63": {"nom": "Chapelle des Diaconesses", "adresse": "6, rue de Sainte Élisabeth"}, "M66": {"nom": "Paroisse Saint Nicolas", "adresse": "9, quai Saint Nicolas"}, "M56": {"nom": "Chapelle de l'Hôpital civil", "adresse": "1, place de l'Hôpital"}, "S06": {"nom": "Centres de vaccination hôpitaux de Strasbourg", "adresse": "1, place de l'Hôpital"}, "S05": {"nom": "Centre de vaccination La Bourse", "adresse": "1, place du Maréchal de Lattre de Tassigny"}, "Mili 1": {"nom": "CIRFA Bas-Rhin", "adresse": "1, rue de Saales"}, "M89": {"nom": "Salle de concert Molodoï", "adresse": "19, rue du Ban-de-la-Roche"}, "Mili 2": {"nom": "CFIAR et GSBdD SHC - Caserne Stirn", "adresse": "37, boulevard Clemenceau"}, "M65": {"nom": "Église Saint Guillaume", "adresse": "1, rue Munch"}, "M72": {"nom": "Église Sainte Madeleine", "adresse": "4, place Sainte Madeleine"}, "S09": {"nom": "Centre médico-social Bourse-Esplanade-Krutenau", "adresse": "15, rue de Genève"}, "M87": {"nom": "Centre commercial Rive Étoile", "adresse": "3, place Dauphine"}, "M96": {"nom": "Police municipale", "adresse": "1, parc de l'Étoile"}, "M95": {"nom": "Hôtel de police", "adresse": "34, route de l'Hôpital"}, "M41": {"nom": "Grande Mosquée", "adresse": "6, rue Averroès"}, "M42": {"nom": "Mosquée Eyyub Sultan", "adresse": "6, rue de la Fayette"}, "ESS1": {"nom": "Station essence", "adresse": "12, route du Rhin, 67400 Illkirch-Graffenstaden"}, "M113": {"nom": "Lycée Couffignal", "adresse": "190, avenue de Colmar"}, "S10": {"nom": "Centre médico-social Neudorf", "adresse": "32, rue de Rathsamhausen"}, "M93": {"nom": "Commissariat de Police de Neudorf", "adresse": "33, rue de Sélestat"}, "M15": {"nom": "Synagogue de l'Esplanade", "adresse": "17, rue de Nicosie"}, "M114": {"nom": "Lycée Jean Rostand", "adresse": "5, rue Edmond Labbe"}};
+
+  function applyFilter() {
+    const term = document.getElementById('search-box').value.trim().toLowerCase();
+    const reportedOnly = document.getElementById('filter-reported').checked;
+    const activeList = document.querySelector('ul.stop-list.active');
+    let anyVisible = false;
+    activeList.querySelectorAll('.stop').forEach(li => {
+      const name = li.querySelector('.stop-name').textContent.toLowerCase();
+      const code = li.getAttribute('data-stop-id').toLowerCase();
+      const num = li.querySelector('.stop-num').textContent.trim();
+      const matchesTerm = !term || name.includes(term) || code.includes(term) || num === term;
+      const matchesReported = !reportedOnly || li.classList.contains('reported');
+      const show = matchesTerm && matchesReported;
+      li.style.display = show ? '' : 'none';
+      if (show) anyVisible = true;
+    });
+    document.getElementById('filter-empty').style.display = anyVisible ? 'none' : 'block';
+  }
+
+  function sendReportsByMail() {
+    const reports = loadReports();
+    const ids = Object.keys(reports).filter(id => reports[id] && reports[id].trim().length > 0);
+    if (ids.length === 0) {
+      alert('Aucun point signalé pour le moment.');
+      return;
+    }
+    let body = "Points signalés - Patrouille 5e Escadron\n\n";
+    ids.forEach(id => {
+      const info = CODE_INFO[id] || { nom: id, adresse: '' };
+      body += `- [${id}] ${info.nom} (${info.adresse})\n  Problème : ${reports[id]}\n\n`;
+    });
+    const subject = "Signalements patrouille - " + ids.length + " point(s)";
+    const mailto = "mailto:?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    window.location.href = mailto;
+  }
 </script>
 </body>
 </html>
